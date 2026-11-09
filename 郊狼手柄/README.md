@@ -2,6 +2,10 @@
 
 只做执行的一层壳。**不做决策、不带人设**——谁想按，谁在外面想好了再来按。
 
+## 来源
+
+本组件不是从零写的：波形播放循环（`lib/player.ts`）改编自第三方项目 **coyote-link-studio**（即仓库中的 `星涟控制台/`）的 `server/controller.ts` 脉冲循环；设备连接、HTTP 接口、护栏与网页面板由「狐狸兔开发组」编写。
+
 - 监听：`127.0.0.1:3210`（只本机）
 - 令牌：`config.json` 里的 `token`，请求带 `Authorization: Bearer <token>`（也认 `x-hand-token` 和 `?token=`）
 - 网页：`http://127.0.0.1:3210/?token=<token>`
