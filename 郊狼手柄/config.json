@@ -1,0 +1,12 @@
+{
+  "port": 3210,
+  "token": "",
+  "hardMax": 60,
+  "stepMax": 10,
+  "minIntervalMs": 1500,
+  "watchdogMs": 60000,
+  "relays": {
+    "v4": "wss://trex.dungeon-lab.cn/v4",
+    "v3": "wss://ws.dungeon-lab.cn/"
+  }
+}

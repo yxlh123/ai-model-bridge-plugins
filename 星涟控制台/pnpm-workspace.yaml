@@ -1,0 +1,9 @@
+packages:
+  - .
+storeDir: ../tools/pnpm-store
+stateDir: ../tools/pnpm-state
+cacheDir: ../tools/pnpm-cache
+allowBuilds:
+  esbuild: true
+  "@mongodb-js/zstd": false
+  node-liblzma: false

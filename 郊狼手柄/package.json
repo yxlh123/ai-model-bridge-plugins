@@ -1,0 +1,17 @@
+{
+  "name": "coyote-hand",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "郊狼联动手柄：只做设备执行层，大脑在外面",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.ts"
+  },
+  "dependencies": {
+    "dglab-kit": "1.0.5",
+    "qrcode": "^1.5.4"
+  }
+}

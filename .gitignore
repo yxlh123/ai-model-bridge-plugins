@@ -1,0 +1,15 @@
+# 依赖与构建产物
+node_modules/
+dist/
+data/
+.eve/
+.output/
+artifacts/
+
+# 环境与密钥
+.env
+.env.*
+!.env.example
+
+# 日志
+*.log

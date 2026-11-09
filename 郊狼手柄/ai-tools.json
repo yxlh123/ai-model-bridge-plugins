@@ -1,0 +1,72 @@
+{
+  "note": "coyote-hand 的工具定义，可直接塞进 OpenAI / Anthropic / MCP 的 tools 数组。所有硬限制都在服务端再校验一遍，这里的描述只是给模型看的。",
+  "baseUrl": "http://127.0.0.1:3210",
+  "auth": { "header": "Authorization", "scheme": "Bearer", "tokenFrom": "config.json.token" },
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "coyote_state",
+        "description": "读取郊狼当前状态：是否连接、A/B 当前强度、设备上限、当前波形、护栏数值。动手前先读一次。",
+        "parameters": { "type": "object", "properties": {}, "additionalProperties": false }
+      },
+      "http": { "method": "GET", "path": "/api/state" }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "coyote_set_intensity",
+        "description": "把某个通道的强度改到目标值。一次只能改一个通道，且一次最多变动 stepMax（默认 10），想大步要分几次、中间隔开。只写要改的通道。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "channel": { "type": "string", "enum": ["A", "B"], "description": "通道" },
+            "value": { "type": "number", "minimum": 0, "maximum": 200, "description": "目标强度，0 表示关掉" }
+          },
+          "required": ["channel", "value"],
+          "additionalProperties": false
+        }
+      },
+      "http": {
+        "method": "POST",
+        "path": "/api/set",
+        "bodyTemplate": { "{channel}": "{value}" }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "coyote_pulse",
+        "description": "给某个通道换波形。只能填 /api/waveforms 里存在的 id。",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "channel": { "type": "string", "enum": ["A", "B"] },
+            "waveform": { "type": ["string", "null"], "description": "波形 id，null 表示停止波形" }
+          },
+          "required": ["channel", "waveform"],
+          "additionalProperties": false
+        }
+      },
+      "http": { "method": "POST", "path": "/api/pulse" }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "coyote_stop",
+        "description": "立刻把 A/B 归零。任何时候都可以调，不受间隔限制。",
+        "parameters": { "type": "object", "properties": {}, "additionalProperties": false }
+      },
+      "http": { "method": "POST", "path": "/api/stop" }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "coyote_keepalive",
+        "description": "喂看门狗。持续操作期间至少每 watchdogMs 调一次，否则设备自动归零。",
+        "parameters": { "type": "object", "properties": {}, "additionalProperties": false }
+      },
+      "http": { "method": "POST", "path": "/api/keepalive" }
+    }
+  ]
+}
